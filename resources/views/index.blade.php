@@ -1,8 +1,11 @@
 @extends('template')
 
 @section('content')
-
-{!! Form::open(['url' => 'knap']) !!}
+<?php if($id > 0){  ?>
+{!! Form::open(['url' => 'knap/'.$id,'method' => 'PUT']) !!}
+<?php }else{ ?>
+	{!! Form::open(['url' => 'knap']) !!}	
+<?php } ?>
 <legend> <span class="gradient"> 0/1 KnapSack </span> </legend>
 <div class="form-group">
 	{!! Form::text('MW',$MW,array('placeholder' => 'Max Weight','class' => 'form-control')) !!}
@@ -26,12 +29,12 @@
 
 				<br/>
 				{!! Form::open(['url' => 'knap/','method' => 'get']) !!}
-					<button type="submit" class="btn btn-info">View History</button>
+					{!! Form::submit('View History',array('class' => 'btn btn-info')) !!}
 				{!! Form::close() !!}
 				
 				@if (count($errors) > 0)
 				<br/>
-				
+
     <div class="alert alert-danger">
         <ul>
             @foreach ($errors->all() as $error)

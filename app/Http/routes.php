@@ -24,7 +24,6 @@
 */
 
 
-
 Route::group(['middleware' => ['web']], function () {
     //
     Route::resource('/knap','KnapRestController');
