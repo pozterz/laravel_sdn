@@ -1,27 +1,37 @@
 @extends('template')
 
 @section('content')
-<form action="knap" method="POST" role="form">
-					<legend> <span class="gradient"> 0/1 KnapSack </span> </legend>
-					<div class="form-group">
-						<input type="text" class="form-control" name="MW" value="{{$MW}}" placeholder="Max Weight">
-					</div>
-					@for ($x = 0; $x < 5; $x++)
-					
-					<div class="form-group">
-						<div class="col-md-6"><input type="text" class="form-control" name="w{{$x}}" value="{{ $arrw[$x] }}" placeholder="Weight {{$x}}"></div>
-						<div class="col-md-6"><input type="text" class="form-control" name="v{{$x}}" value="{{ $arrv[$x]}}" placeholder="Value {{$x}}"></div>
-						<div class="clearfix"></div>
-					</div>
 
-					@endfor
+{!! Form::open(['url' => 'knap']) !!}
+<legend> <span class="gradient"> 0/1 KnapSack </span> </legend>
+<div class="form-group">
+	{!! Form::text('MW',$MW,array('placeholder' => 'Max Weight','class' => 'form-control')) !!}
+</div>
 
-					 <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" />
-					<button type="submit" class="btn btn-success">Submit</button>
-				</form><br/>
-				<a href="show"><button type="submit" class="btn btn-info">View History</button></a>
+	
+@for ($x = 0; $x < 5; $x++)
+	<div class="form-group">
+		<div class="col-md-6">
+			{!! Form::text('w'.$x,$arrw[$x],array('placeholder' => 'Weight '.$x,'class' => 'form-control')) !!}
+		</div>
+		<div class="col-md-6">
+			{!! Form::text('v'.$x,$arrv[$x],array('placeholder' => 'Value '.$x,'class' => 'form-control')) !!}
+		</div>
+		<div class="clearfix"></div>
+	</div>
+@endfor
+
+{!! Form::submit('Submit',array('class' => 'btn btn-success')) !!}
+{!! Form::close() !!}
+
+				<br/>
+				{!! Form::open(['url' => 'knap/','method' => 'get']) !!}
+					<button type="submit" class="btn btn-info">View History</button>
+				{!! Form::close() !!}
+				
 				@if (count($errors) > 0)
 				<br/>
+				
     <div class="alert alert-danger">
         <ul>
             @foreach ($errors->all() as $error)
