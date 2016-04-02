@@ -13,10 +13,6 @@
 			<div class="content">
 				<div class="col-md-6">
 					@yield('content')
-				</div>
-				<div class="col-md-6">
-					@include('result')
-				</div>
 				<div class="clearfix"></div>
 				
 			</div>

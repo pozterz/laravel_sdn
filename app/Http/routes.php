@@ -23,8 +23,12 @@
 |
 */
 
+
+
 Route::group(['middleware' => ['web']], function () {
     //
+    Route::resource('/knap','KnapRestController');
+    Route::get('/show','Knap@show');
 	Route::get('/','Knap@index');
 	Route::post('/','Knap@Input_Check');
 

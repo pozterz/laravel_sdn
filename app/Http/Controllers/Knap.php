@@ -4,10 +4,11 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests;
-
+use App\KnapSack;
 class Knap extends Controller {
-
+/**************************** index and init ****************************/
 	public function index(){
+
 		$MW = null;
 		$arrw = array();
 		$arrv = array();
@@ -20,14 +21,20 @@ class Knap extends Controller {
 		for($i = 0; $i < 5; $i++){
 			$arrv[$i] = null;
 		}
+
 		$res = 0;
 		$ans = array();
 		return view('index',compact('MW','arrw','arrv','res','ans'));
+	}
+	public function show(){
+		$kk = KnapSack::all();
+		return view('show',compact('kk'));
 	}
 
 	public function Input_Check(){
 		$MW = Input::get('MW');
   /***************** Max Weight Validation *******************/
+
 		// Rules 
 		$MWrule = array(
 			'MW' => array('required','min:0','integer'),
@@ -42,14 +49,17 @@ class Knap extends Controller {
 			'v3' => array('min:0','integer'),
 			'v4' => array('min:0','integer')
 			);
+
 		// Error Msg
 		$MWmsg = array(
 			'MW.required' => 'Required Max Weight',
 			'MW.min' => 'Minimum Number is 0',
 			'MW.integer' => 'Max Weight Must be Integer',
 			);
+
 		// init validator
 		$validator = validator::make(Input::all(),$MWrule,$MWmsg);
+
 /*************************** PASS  ******************************/
 		if($validator->passes()){
 /************************** init and counting ***********************/
@@ -62,7 +72,7 @@ class Knap extends Controller {
 						array(null),
 						array(null)
 						);
-
+ // loop get input
 					for($i = 0; $i < 5; $i++){
 						$arrw[$i] = Input::get('w'.$i);
 					}
@@ -70,7 +80,7 @@ class Knap extends Controller {
 					for($i = 0; $i < 5; $i++){
 						$arrv[$i] = Input::get('v'.$i);
 					}
-
+ // count available element
 					$w_count = 0;
 
 					foreach($arrw as $a){
@@ -82,7 +92,7 @@ class Knap extends Controller {
 					foreach($arrv as $a){
 						if($a != null) $v_count++;
 					}
-				
+		//init  result array		
 					$result = array(
 						array(null),
 						array(null),
@@ -92,6 +102,7 @@ class Knap extends Controller {
 						);
 
 /***************************** 0/1 Knapsack ***************************************/
+
 					for ($i=0; $i <= $w_count ; $i++) { 
 						for ($j=0; $j <= $MW ; $j++) { 
 							if($i == 0 || $j == 0){
@@ -115,6 +126,7 @@ class Knap extends Controller {
 							}
 						}
 					}
+
  /************************ ERROR CHECKING *******************************/
 				/*for ($i=0; $i <= $w_count ; $i++) { 
 						for ($j=0; $j <= $MW ; $j++) { 
@@ -125,7 +137,7 @@ class Knap extends Controller {
 /******************************** COLLECT ANSWER *******************************/
 
 					$i = $w_count-1; $j = $MW;
-					$ans = array();
+					$ans = array(); // pick answer
 					while($i >= 0){
 						//echo $j."::".$arrw[$i]."<br/>";
 						//echo $i."<<"."::<br/>";
@@ -141,8 +153,12 @@ class Knap extends Controller {
 						}
 					}
 				
-					$res = $result[$w_count][$MW];
+					$res = $result[$w_count][$MW]; // best max weight
 /******************************* RETURN **************************************/
+					$tmp = new KnapSack;
+					$tmp->MW = $MW;
+					$tmp->Best = $res;
+					$tmp->save();
 					return view('index',compact('MW','arrw','arrv','res','ans'));
 		}else{
 			return Redirect::to('/')->withErrors($validator->messages());
