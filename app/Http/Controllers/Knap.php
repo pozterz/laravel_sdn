@@ -1,9 +1,11 @@
-<?php namespace App\Http\Controllers;
+<?php 
+namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests;
+
 use App\KnapSack;
 class Knap extends Controller {
 /**************************** index and init ****************************/

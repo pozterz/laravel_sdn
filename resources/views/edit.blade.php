@@ -11,11 +11,11 @@
 
 {!! Form::submit('Submit',array('class' => 'btn btn-success')) !!}
 {!! Form::close() !!}
+<br/>
 
-				<br/>
-				{!! Form::open(['url' => 'knap/','method' => 'get']) !!}
-					{!! Form::submit('View History',array('class' => 'btn btn-info')) !!}
-				{!! Form::close() !!}
+	{!! Form::open(['url' => 'knap/','method' => 'get']) !!}
+		{!! Form::submit('View History',array('class' => 'btn btn-info')) !!}
+	{!! Form::close() !!}
 				
 </div>
 @endsection

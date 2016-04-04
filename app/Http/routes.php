@@ -22,10 +22,13 @@
 | kernel and includes session state, CSRF protection, and more.
 |
 */
-
+use App\KnapSack;
 
 Route::group(['middleware' => ['web']], function () {
-    //
-    Route::resource('/knap','KnapRestController');
 
+	//Route::resource('/kuy','KuyController');
+  	Route::resource('/knap','KnapRestController');
+	Route::get('/knap/del/{id}',function($id){
+		return view('del',compact('id'));
+	});
 });

@@ -365,9 +365,14 @@ class KnapRestController extends Controller
                 
                     $res = $result[$w_count][$MW]; // best max weight
 /******************************* RETURN **************************************/
-                    $tmp = new KnapSack;
-                    $tmp->MW = $MW;
-                    $tmp->Best = $res;
+
+                    $tmp = array(
+                            'MW' => null,
+                            'Best' => null
+                        );
+
+                    $tmp['MW'] = $MW;
+                    $tmp['Best'] = $res;
                     $knap = KnapSack::findOrFail($id);
                     $knap->update($tmp);
                     return Redirect::to('/knap');
@@ -385,6 +390,6 @@ class KnapRestController extends Controller
     public function destroy($id)
     {
         KnapSack::destroy($id);
-        return Redirect::to('knap');
+        return Redirect::to('/knap');
     }
 }
